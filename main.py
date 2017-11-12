@@ -51,8 +51,17 @@ class star():
         self.size = initsize
 
     def draw(self,screen):
-        pygame.draw.circle(screen, [50,50,50], [int((self.pos[0]-playership.pos[0]))%WORLDWIDTH/(6-self.size),int((self.pos[1]-playership.pos[1]))%WORLDHEIGHT/(6-self.size)], int(self.size*(2+2*math.sin(gametime*self.color[1]/10000))),0)
-        pygame.draw.circle(screen, self.color, [int((self.pos[0]-playership.pos[0]))%WORLDWIDTH/(6-self.size),int((self.pos[1]-playership.pos[1]))%WORLDHEIGHT/(6-self.size)], int(self.size),0)
+        pygame.draw.circle(screen, 
+                           [50,50,50], 
+                           [int(int((self.pos[0]-playership.pos[0]))%WORLDWIDTH/(6-self.size)),
+                            int(int((self.pos[1]-playership.pos[1]))%WORLDHEIGHT/(6-self.size))], 
+                            int(self.size*(2+2*math.sin(gametime*self.color[1]/10000)))
+                           ,0)
+        pygame.draw.circle(screen, 
+                           self.color, 
+                           [int(int((self.pos[0]-playership.pos[0]))%WORLDWIDTH/(6-self.size)),
+                            int(int((self.pos[1]-playership.pos[1]))%WORLDHEIGHT/(6-self.size))], 
+                            int(self.size),0)
 
 #########Planet#######
 class Planet():
@@ -87,6 +96,7 @@ class Planet():
 
     def update(self):
         VOID
+        # for moving planets around
         #self.pos[0] = WORLDWIDTH/2 +self.radius*math.cos(self.offset)
         #self.pos[1] = WORLDHEIGHT/2 +self.radius*math.sin(self.offset)
 
@@ -171,7 +181,7 @@ class Ship():
             if a == self.closestplanet: self.altitude = dsq
             else:
                 if dsq < self.altitude:
-                    print str(dsq) + " of planet "+ str(a)+ " is smaller than altitude " + str(self.altitude) +" from planet " + str(self.closestplanet)
+                    print(str(dsq) + " of planet "+ str(a)+ " is smaller than altitude " + str(self.altitude) +" from planet " + str(self.closestplanet) )
                     self.closestplanet = a
                     self.altitude = dsq
             ad = math.atan2(planetList[a].pos[1]-self.pos[1],planetList[a].pos[0]-self.pos[0]) #angle to planet
@@ -247,7 +257,6 @@ class Ship():
             xp = vx*tickspeed
             yp = vy*tickspeed
             self.path.append([self.path[ft][0]+xp,self.path[ft][1]+yp])
-        #print self.path
 
         #what if the mag of the vel affected the zoom?
         #I don't like it
@@ -265,7 +274,7 @@ class Ship():
 
         Rp1 = alt*(float(-C+math.sqrt(det)) /(2*(1-C)))
         Rp2 = alt*(float(-C-math.sqrt(det)) /(2*(1-C)))
-        #print "det: ", det, ", ", -C+math.sqrt(det),", ",(2*(1-C)),", ",float((-C+math.sqrt(det)) / (2*(1-C)))
+    
         self.perigee = max(1,min(Rp1,Rp2))
         self.apogee = max(1,max(Rp1,Rp2))
 
@@ -349,7 +358,7 @@ while done != True:
                     drawpath = False
                 else:
                     drawpath = True
-                    print playership.path
+                    print(playership.path)
             if event.key == pygame.K_z:
                 if stats:
                     stats = False
